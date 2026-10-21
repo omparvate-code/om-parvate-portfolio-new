@@ -441,6 +441,59 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 })();
 
+ValueAtTime(
+          endFrequency,
+          now + duration
+        );
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(
+          volume,
+          now + 0.008
+        );
+        gain.gain.exponentialRampToValueAtTime(
+          0.0001,
+          now + duration
+        );
+
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+
+        oscillator.start(now);
+        oscillator.stop(now + duration + 0.01);
+      }
+
+      // Main clear click
+      addTone(1050, 680, 0.16, 0.10);
+
+      // Soft high-pitched premium chime
+      addTone(1650, 1250, 0.065, 0.16);
+
+    } catch (error) {
+      // Sound errors should never break the website.
+    }
+  }
+
+  document.addEventListener("click", function (event) {
+    const target = event.target.closest(
+      "button, .btn, .filter-btn, .interactive-card, " +
+      ".project-links a, .social-row a, .navbar a, " +
+      ".menu-btn, footer a"
+    );
+
+    if (!target) return;
+
+    if (
+      target.matches(":disabled") ||
+      target.getAttribute("aria-disabled") === "true"
+    ) {
+      return;
+    }
+
+    playPremiumClick();
+  });
+})();
+
 // =====================================
 // PORTFOLIO LOADER CONTROLLER
 // =====================================
